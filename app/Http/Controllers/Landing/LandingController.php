@@ -106,7 +106,7 @@ class LandingController extends Controller
         {
           $dt->where('title','like','%'.$req->input('cari').'%');
         }
-        $services= $dt->paginate(10);
+        $services= $dt->paginate(6);
 
         return view('pages.landing.explore', compact('services'));
     }
