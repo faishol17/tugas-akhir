@@ -99,9 +99,14 @@ class LandingController extends Controller
 
     // custom
 
-    public function explore()
-    {
-        $services = Service::orderBy('created_at', 'desc')->get();
+    public function explore(Request $req)
+    { 
+        $dt = Service::orderBy('created_at', 'desc');
+        if(@$req->input('cari'))
+        {
+          $dt->where('title','like','%'.$req->input('cari').'%');
+        }
+        $services= $dt->paginate(10);
 
         return view('pages.landing.explore', compact('services'));
     }

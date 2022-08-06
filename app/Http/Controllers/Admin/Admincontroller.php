@@ -45,7 +45,6 @@ if(@$req->input('cari'))
     	$dt->Orwhere('service.title','like','%'.@$req->input('cari').'%');
     	
 
-
 }
 
     	$dt->orderBy('tb_transaksi.id','DESC'); 
