@@ -21,8 +21,13 @@ class MidtransController extends Controller
     
     public function prosesPayment(Request $request)
     {
-        Config::$serverKey          = 'SB-Mid-server-4Fy5yjowRrTdTK15ghhd2r6A';
-        Config::$clientKey          = 'SB-Mid-client-AGm-heRvURMrM0kK'; 
+        // //sendbox
+        //   Config::$serverKey          = 'SB-Mid-server-4Fy5yjowRrTdTK15ghhd2r6A';
+        // Config::$clientKey          = 'SB-Mid-client-AGm-heRvURMrM0kK';
+        // //sendbox
+        Config::$serverKey          = 'Mid-server-xGIayklqPu6y4WA4QyC1cX8E';
+        Config::$clientKey          = 'Mid-client-NEjb8ur3g4Xz3W_2'; 
+        Config::$isProduction       = true;
         Config::$isSanitized        = true; 
         Config::$is3ds              = true; 
         Config::$appendNotifUrl     = url('payment_midtrans');
@@ -120,7 +125,7 @@ $item2_details = array(
       
         $get_order=DB::table('order')->where('id',$id_order)->first();
         $get_trx=DB::table('tb_transaksi')->where('id_order',$id_order)->first();
-
+        $date_transaksi=@$data['transaction_time']?Carbon::parse(@$data['transaction_time']):Carbon::now();
 
         if($get_trx)
         {
@@ -130,7 +135,7 @@ $item2_details = array(
                     'id_order'      =>@$id_order,
                     'status'        =>@$data['transaction_status'],
                     'detail_report' =>serialize($data), 
-                    'updated_at'    =>Carbon::now() 
+                    'updated_at'    =>$date_transaksi 
                 ]); 
         }else
         {
@@ -141,8 +146,8 @@ $item2_details = array(
                     'id_order'=>@$id_order,
                     'status'   =>@$data['transaction_status'],
                     'detail_report'=>serialize($data),
-                    'created_at'=>Carbon::now(),
-                    'updated_at'=>Carbon::now() 
+                    'created_at' =>$date_transaksi,
+                    'updated_at'=>$date_transaksi 
                 ]);
 
         }

@@ -89,7 +89,8 @@ $get_trnsaksi=DB::table('tb_transaksi')->where('id_order',$id)->whereIn('status'
 
         </div>
     </section>
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-AGm-heRvURMrM0kK"></script>
+<script src="https://app.midtrans.com/snap/snap.js" data-client-key="Mid-client-NEjb8ur3g4Xz3W_2"></script>
+<!-- <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-AGm-heRvURMrM0kK"></script> -->
 <script type="text/javascript">
 $(document).ready(function() 
 {

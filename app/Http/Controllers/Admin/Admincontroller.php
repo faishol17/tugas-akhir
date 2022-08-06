@@ -32,7 +32,21 @@ class Admincontroller extends Controller
     	$dt->leftJoin('detail_user','detail_user.id','=','order.freelancer_id');
 
     	//$dt->leftJoin('tb_konfirmasi','b_konfirmasi.id_order','=','order.id');
+if(@$req->input('cari'))
+{
+    	$dt->where('order_status.name','like','%'.@$req->input('cari').'%');
+    	$dt->Orwhere('detail_user.nama_pemilik_rek','like','%'.@$req->input('cari').'%');
 
+    	$dt->Orwhere('detail_user.bank','like','%'.@$req->input('cari').'%');
+
+    	$dt->Orwhere('freelancer.name','like','%'.@$req->input('cari').'%');
+
+    	$dt->Orwhere('buyer.name','like','%'.@$req->input('cari').'%');
+    	$dt->Orwhere('service.title','like','%'.@$req->input('cari').'%');
+    	
+
+
+}
 
     	$dt->orderBy('tb_transaksi.id','DESC'); 
     	$tb_transaksi=$dt->paginate(20);

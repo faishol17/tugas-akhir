@@ -16,6 +16,21 @@ tr i {
   font-size: 14px;
   color: #11db60;
 }
+.flex.justify-between.flex-1.sm\:hidden {
+  display: none;
+}
+
+form {
+  display: flex;
+  padding: 20px;
+}
+form input {
+  border: 1px solid rgba(72, 69, 69, 0.32) !important;
+  width: 40%;
+}
+form .block.px-2.py-2.text-center.text-white.bg-serv-button.rounded-xl {
+  border-radius: 1px;
+}
 </style>
 
 <main class="h-full overflow-y-auto">
@@ -43,6 +58,10 @@ tr i {
                 <main class="col-span-12 p-4 md:pt-0">
 
                 	<div class="bg-white rounded-xl">
+                        <form action="{{url()->current()}}" method="get">
+                            <input type="text" name="cari" value="{{ @$app->request->input('cari') }}"> 
+                            <button type="submit" class="block px-2 py-2 text-center text-white bg-serv-button rounded-xl" >Cari</button>
+                        </form>
                         <section class="pt-6 pb-20 mx-8 w-auth">
                         	 <table class="w-full" aria-label="Table">
                                 <thead>
@@ -66,7 +85,7 @@ tr i {
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->detail_report['gross_amount']}}</td>
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->detail_report['transaction_status']}}</td>
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->status}}</td>
-                                		<td class="px-1 py-5 text-sm w-2/8">{{@$key->created_at}}</td>  
+                                		<td class="px-1 py-5 text-sm w-2/8">{{@$key->detail_report['transaction_time']}}</td>  
                                 		<td class="px-1 py-5 text-sm w-2/8">
                                 			
                                 			<a href="#" data-id="{{$key->id}}" class="px-4 py-2 mt-1 mr-2 text-center text-white rounded-xl bg-serv-email  detail_trx">Details</a>
@@ -75,6 +94,7 @@ tr i {
                                 </tbody>
                                 	@endforeach
                             </table>
+                            {{$tb_transaksi->links()}}
                         </section>
                     </div>
                 </main>
