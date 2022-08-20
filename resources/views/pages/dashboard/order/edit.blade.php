@@ -3,7 +3,22 @@
 @section('title', ' Submit Order')
 
 @section('content')
-
+<style type="text/css">
+    .chat li {
+  border: 1px solid #ccc;
+  margin: 5px;
+  padding: 5px;
+  background: rgb(238, 238, 238);
+  font-size: 14px;
+}
+.kanan {
+  text-align: right;
+}
+.chat ul {
+  max-height: 200px;
+  overflow-y: auto;
+}
+</style>
     <main class="h-full overflow-y-auto">
         <div class="container mx-auto">
             <div class="grid w-full gap-5 px-10 mx-auto md:grid-cols-12">
@@ -146,6 +161,7 @@
                                     </div>
                                 </div>
                                 <div class="px-1 py-4 text-right">
+                                      <!--  <a href="#" type="button" class="detail inline-flex justify-center px-4 py-2 mr-4 text-sm font-medium text-gray-700 bg-white border border-gray-600 rounded-lg shadow-sm hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300" >Lihat Chat</a> -->
                                     <a href="{{ route('member.order.index') }}" type="button" class="inline-flex justify-center px-4 py-2 mr-4 text-sm font-medium text-gray-700 bg-white border border-gray-600 rounded-lg shadow-sm hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300" onclick="return confirm('Are you sure want to back? , Any changes you make will not be saved.')">
                                         Back
                                     </a>
@@ -162,10 +178,70 @@
                                 </div>
                             </div>
                         </form>
+
+<div class="chat">
+<ul> 
+</ul>
+
+</div>
+
+<form id="send" name="send">
+<div class="form-group">
+<label>Chat</label>
+<input type="text"  class="form-control" name="chat">
+</div>
+<div class="form-group">
+<button class="btn btn-success" type="submit">Send</button>
+</div> 
+</form>
                     </div>
                 </main>
             </div>
         </section>
     </main>
+    
+<script type="text/javascript">
+           window.di_user='{{$order->buyer_id}}'; 
+    
+     $('body').delegate('#send','submit',function(e)
+        {
+            e.preventDefault();
+            const grafikjson        = document.forms.namedItem('send');
+            const form_graf         = new FormData(grafikjson); 
+            form_graf.append('_token','{{csrf_token()}}');
+            form_graf.append('users_id', window.di_user); 
+            form_graf.append('id_service', '{{$order->id}}');  
 
+            fetch('{{url('kirim-chat')}}', { method: 'POST',body:form_graf}).then(res => res.json()).then(data => 
+            { 
+            $('input[name="chat"]').val('');
+            });
+        });
+        getlischat();
+        function getlischat()
+        {  
+        const Formlist  =new FormData();
+        Formlist.append('_token', '{{csrf_token()}}');    
+        Formlist.append('users_id',  window.di_user);   
+        Formlist.append('id_service', '{{$order->id}}');  
+
+        fetch('{{url('list-chat')}}', { method: 'POST',body:Formlist}).then(res => res.json()).then(data => 
+        { 
+
+            var list_=``;
+            for(let lis of data.db_chat)
+            {
+                var saya='{{Auth::user()->id}}'==lis.id_a?'kanan':'kiri';  
+                list_+=`<li class="`+saya+`">`+lis.chat+`</li>`;
+            }
+            if(data.db_chat.length!=0)
+            {
+                $('.chat ul').html(list_);  
+            }
+            }); 
+        window.timer =setTimeout(function(){
+         getlischat();
+        },3000);
+        }
+</script>
 @endsection

@@ -172,6 +172,7 @@ $contact=@$contact->contact_number;
     {
          $data['id_a']      =Auth::user()->id;
          $data['id_b']      =$request->input('users_id');
+         $data['id_service']=$request->input('id_service'); 
          $data['chat']      =$request->input('chat');
          $data['created_at']=Carbon::now(); 
          $data['updated_at']=Carbon::now();
@@ -182,15 +183,18 @@ $contact=@$contact->contact_number;
 
 public function listChat(Request $request) 
     {   
-        $db_chat=array();
-         $id_ku=Auth::user()->id;
-         $id_dia=$request->input('users_id');
-
-         $data=DB::table('tb_chat');
+        $db_chat        =array();
+         $id_ku         =Auth::user()->id;
+         $id_dia        =$request->input('users_id');
+         $id_service    =$request->input('id_service');
+         $data           =DB::table('tb_chat');
+         $data->where('id_a',$id_ku); 
          $data->where('id_a',$id_ku);
-         $data->where('id_b',$id_dia); 
+         $data->where('id_service',$id_service); 
          $data->Orwhere('id_a',$id_dia);
          $data->where('id_b',$id_ku);
+         $data->where('id_service',$id_service); 
+         
          $data->orderBy('created_at','ASC');
          if(@$request->input('satuan')=='ya')
          {
