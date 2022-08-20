@@ -56,7 +56,7 @@ if(@$req->input('cari'))
 				$period             =   \Carbon\CarbonPeriod::create($date_range,Carbon::now());
                 $period             =   count($period);
                 $tb_transaksi[$i]->period=$period;
-                if($period>=5&&@$key->status=='Waiting')
+                if($period>=10&&@$key->status!='Rejected')
                 {
 					DB::table('order')->where('id', $key->id_order)->update(['order_status_id'=>1]);
                 } 

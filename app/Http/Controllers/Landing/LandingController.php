@@ -190,11 +190,28 @@ public function listChat(Request $request)
          $data           =DB::table('tb_chat');
          $data->where('id_a',$id_ku); 
          $data->where('id_a',$id_ku);
+         if($id_service)
+         {
          $data->where('id_service',$id_service); 
+
+         }
+         else
+         {
+         $data->whereNull('id_service'); 
+
+         }
          $data->Orwhere('id_a',$id_dia);
          $data->where('id_b',$id_ku);
+         if($id_service)
+         {
          $data->where('id_service',$id_service); 
-         
+
+         }
+         else
+         {
+         $data->whereNull('id_service'); 
+
+         }
          $data->orderBy('created_at','ASC');
          if(@$request->input('satuan')=='ya')
          {

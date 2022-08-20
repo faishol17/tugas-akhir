@@ -320,7 +320,7 @@
             const form_graf         = new FormData(grafikjson); 
             form_graf.append('_token','{{csrf_token()}}');
             form_graf.append('users_id', '{{@$service->users_id}}');  
-            form_graf.append('id_service', '{{@$service->id}}');  
+         //   form_graf.append('id_service', '{{@$service->id}}');  
             fetch('{{url('kirim-chat')}}', { method: 'POST',body:form_graf}).then(res => res.json()).then(data => 
             { 
             $('input[name="chat"]').val('');
@@ -332,7 +332,7 @@
         const Formlist  =new FormData();
         Formlist.append('_token', '{{csrf_token()}}');    
         Formlist.append('users_id', '{{@$service->users_id}}');  
-        Formlist.append('id_service', '{{@$service->id}}');   
+      //  Formlist.append('id_service', '{{@$service->id}}');   
 
         fetch('{{url('list-chat')}}', { method: 'POST',body:Formlist}).then(res => res.json()).then(data => 
         { 
