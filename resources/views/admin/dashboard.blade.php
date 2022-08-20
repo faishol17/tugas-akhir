@@ -72,7 +72,8 @@ form .block.px-2.py-2.text-center.text-white.bg-serv-button.rounded-xl {
                                         <th class="px-1 py-5 text-sm w-2/8" scope="">Harga</th>
                                         <th class="px-1 py-5 text-sm w-2/8" scope="">Status pembayaran</th>
                                         <th class="px-1 py-5 text-sm w-2/8" scope="">Status order</th>
-                                        <th class="px-1 py-5 text-sm w-2/8" scope="">Tanggal Transaksi</th> 
+                                        <th class="px-1 py-5 text-sm w-2/8" scope="">Tanggal Transaksi</th>
+                                        <th class="px-1 py-5 text-sm w-2/8" scope="">Hari</th> 
                                         <th class="px-1 py-5 text-sm w-2/8" scope="">Opsi</th>
                                     </tr>
                                 </thead>
@@ -86,6 +87,8 @@ form .block.px-2.py-2.text-center.text-white.bg-serv-button.rounded-xl {
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->detail_report['transaction_status']}}</td>
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->status}}</td>
                                 		<td class="px-1 py-5 text-sm w-2/8">{{@$key->detail_report['transaction_time']}}</td>  
+                                        <th class="px-1 py-5 text-sm w-2/8" scope="">{{@$key->period}}Hari lalu</th>
+
                                 		<td class="px-1 py-5 text-sm w-2/8">
                                 			
                                 			<a href="#" data-id="{{$key->id}}" class="px-4 py-2 mt-1 mr-2 text-center text-white rounded-xl bg-serv-email  detail_trx">Details</a>
