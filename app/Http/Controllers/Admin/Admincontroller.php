@@ -44,7 +44,7 @@ if(@$req->input('cari'))
     	$dt->Orwhere('buyer.name','like','%'.@$req->input('cari').'%');
     	$dt->Orwhere('service.title','like','%'.@$req->input('cari').'%');
     	
-
+ 
 }
 
     	$dt->orderBy('tb_transaksi.id','DESC'); 
@@ -52,6 +52,13 @@ if(@$req->input('cari'))
     	$i=0;
     	foreach ($tb_transaksi as $key) 
     	{
+				$date_range 		= 	Carbon::parse($key->created_at);
+				$period             =   \Carbon\CarbonPeriod::create($date_range,Carbon::now());
+                $period             =   count($period);
+                if($period>=5&&@$key->status=='Waiting')
+                {
+					DB::table('order')->where('id', $key->id_order)->update(['order_status_id'=>1]);
+                } 
 	    	$tb_transaksi[$i]->created_at 			=$this->keIndonesiaa($key->created_at);
 	    	$tb_transaksi[$i]->detail_report		=@unserialize(@$key->detail_report)?@unserialize(@$key->detail_report):array();
 			$status_konfirm=DB::table('tb_konfirmasi')->select('id')->where('id_order',$key->id_order)->first();
