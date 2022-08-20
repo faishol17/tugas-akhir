@@ -151,4 +151,38 @@ class MyOrderController extends Controller
         toast()->success('Tolak pesanan telah berhasil');
         return back();
     }
+    public function chat_index(Request $request)
+    { 
+         $id_ku=Auth::user()->id; 
+
+         $data=DB::table('tb_chat');
+         $data->where('id_a',$id_ku);  
+         $data->Orwhere('id_b',$id_ku); 
+         $data->orderBy('created_at','ASC');
+         $db_chat=$data->get(); 
+         $ls_cht    =array(); 
+         foreach ($db_chat as $e) 
+         {
+                if($e->id_a!= $id_ku)
+                {
+                    @$e->id_user=$e->id_a;
+                }
+                elseif($e->id_b!= $id_ku)
+                {
+                    @$e->id_user=$e->id_b;
+                }
+                $db=DB::table('users')->where('id',$e->id_user)->first();
+                if($db)
+                {
+                @$e->name_user=$db->name;
+                @$e->id_uers=$db->id; 
+                 $ls_cht[@$e->id_user] =  @$e;   
+                }
+
+
+         }
+         sort($ls_cht);
+        return view('pages.dashboard.chat.list', compact('ls_cht'));
+    }
+    
 }

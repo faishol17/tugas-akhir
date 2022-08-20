@@ -28,6 +28,10 @@ use App\Http\Controllers\Admin\Admincontroller;
 |
 */
 
+Route::post('kirim-chat', [LandingController::class, 'kirimchat']);
+Route::post('list-chat', [LandingController::class, 'listchat']);
+
+
 Route::get('detail_booking/{id}', [LandingController::class, 'detail_booking'])->name('detail.booking.landing');
 Route::post('proses-pembayaran', [MidtransController::class, 'prosesPayment'])->name('prosesPayment');
 Route::post('payment_midtrans', [MidtransController::class, 'payment_midtrans'])->name('payment_midtrans');
@@ -66,10 +70,15 @@ Route::group(['prefix' => 'member', 'as' => 'member.', 'middleware' => ['auth:sa
     Route::get('accept/order/{id}', [MyOrderController::class, 'accepted'])->name('accept.order');
     Route::get('reject/order/{id}', [MyOrderController::class, 'rejected'])->name('reject.order');
     Route::resource('order', MyOrderController::class);
+//chat
+    Route::get('chat/list', [MyOrderController::class, 'chat_index'])->name('chat.index');
 
     // profile
     Route::get('delete_photo', [ProfileController::class, 'delete'])->name('delete.photo.profile');
     Route::resource('profile', ProfileController::class);
+
+
+    
 
 
 });

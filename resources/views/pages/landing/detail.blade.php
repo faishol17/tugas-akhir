@@ -3,6 +3,40 @@
 @section('title', ' Detail')
 
 @section('content')
+<style type="text/css">
+.chat {
+  display: none;
+  position: fixed;
+  bottom: 1px;
+  z-index: 1017;
+  background: rgba(234, 226, 226, 0.93);
+  padding: 12px;
+  right: 0;
+  box-shadow: 0px 3px 9px 5px rgba(0, 0, 0, 0.8);
+}
+.chat.show{
+    display: block;
+}
+#send .btn.btn-success {
+  background: rgba(11, 213, 33, 0.67);
+  padding: 10px;
+  margin: 0px -5px;
+}
+.chat li {
+  border: 1px solid #ccc;
+  margin: 5px;
+  padding: 5px;
+  background: rgb(238, 238, 238);
+  font-size: 14px;
+}
+.kanan {
+  text-align: right;
+}
+.chat ul {
+  max-height: 200px;
+  overflow-y: auto;
+}
+</style>
 
     <!-- <div>
          <nav class="mx-8 mt-8 text-sm lg:mx-20" aria-label="Breadcrumb">
@@ -223,6 +257,10 @@
                                 Hubungi
                             </a>
 
+                            <a href="#" id="liveChat" class="block px-12 py-4 my-2 text-lg font-semibold text-center text-white bg-serv1-button rounded-xl">
+                                Chat to Freelancer
+                            </a>
+
                             <br>
                             <br>
                         @endauth
@@ -240,7 +278,19 @@
             </aside>
         </div>
     </section>
-
+<div class="chat show" >
+<ul>
+     
+</ul>
+    <form id="send" name="send" >
+        <div class="form-control">
+            
+            <input type="text" name="chat" required="required" >
+            <button class="btn btn-success" type="submit">Send</button>
+            
+        </div>
+    </form>
+</div>
     <div class="pt-6 pb-20 mx-8 lg:mx-20"></div>
 
 @endsection
@@ -256,6 +306,48 @@
                     this.active = position;
                 }
             }
+        }
+        $('body').delegate('#liveChat','click',function(e)
+        {
+            e.preventDefault();
+            $('.chat').toggleClass('show');
+        });
+
+        $('body').delegate('#send','submit',function(e)
+        {
+            e.preventDefault();
+            const grafikjson        = document.forms.namedItem('send');
+            const form_graf         = new FormData(grafikjson); 
+            form_graf.append('_token','{{csrf_token()}}');
+            form_graf.append('users_id', '{{@$service->users_id}}');  
+            fetch('{{url('kirim-chat')}}', { method: 'POST',body:form_graf}).then(res => res.json()).then(data => 
+            { 
+            $('input[name="chat"]').val('');
+            });
+        });
+        getlischat();
+        function getlischat()
+        {  
+        const Formlist  =new FormData();
+        Formlist.append('_token', '{{csrf_token()}}');    
+        Formlist.append('users_id', '{{@$service->users_id}}');   
+        fetch('{{url('list-chat')}}', { method: 'POST',body:Formlist}).then(res => res.json()).then(data => 
+        { 
+
+            var list_=``;
+            for(let lis of data.db_chat)
+            {
+                var saya='{{Auth::user()->id}}'==lis.id_a?'kanan':'kiri';  
+                list_+=`<li class="`+saya+`">`+lis.chat+`</li>`;
+            }
+            if(data.db_chat.length!=0)
+            {
+                $('.chat ul').html(list_);  
+            }
+            }); 
+        timer =setTimeout(function(){
+         getlischat();
+        },3000);
         }
     </script>
 @endpush

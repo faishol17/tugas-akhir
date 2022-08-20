@@ -1,4 +1,5 @@
 <!-- Desktop sidebar -->
+
 <aside class="z-20 flex-shrink-0 hidden w-64 overflow-y-auto bg-white md:block" aria-label="aside">
     <div class="text-serv-bg">
 
@@ -151,6 +152,36 @@
                         <line x1="7.75" y1="15.25" x2="16.25" y2="15.25" stroke="white" stroke-width="1.5" stroke-linecap="round" />
                     </svg> -->
                     <span class="ml-4">My Orders</span>
+                    <span class="inline-flex items-center justify-center px-3 py-2 ml-auto text-xs font-bold leading-none text-green-500 rounded-full bg-serv-green-badge">
+                        {{ auth()->user()->order_freelancer()->count() }}
+                    </span>
+
+                </a>
+            </li>
+
+
+
+            <li class="relative px-6 py-3">
+
+                @if (
+                    request()->is('member/chat') ||
+                    request()->is('member/chat/*') ||
+                    request()->is('member/*/chat') ||
+                    request()->is('member/*/chat/*')
+                )
+
+                    <span class="absolute inset-y-0 left-0 w-1 rounded-tr-lg rounded-br-lg bg-serv-bg" aria-hidden="true"></span>
+
+                @endif
+
+                <a class="inline-flex items-center w-full text-sm font-light transition-colors duration-150 hover:text-gray-800" href="{{ route('member.chat.index') }}">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3.25" y="2.25" width="17.5" height="19.5" rx="4.75" stroke="#082431" stroke-width="1.5" />
+                        <line x1="7.75" y1="7.25" x2="10.25" y2="7.25" stroke="#082431" stroke-width="1.5" stroke-linecap="round" />
+                        <line x1="7.75" y1="11.25" x2="16.25" y2="11.25" stroke="#082431" stroke-width="1.5" stroke-linecap="round" />
+                        <line x1="7.75" y1="15.25" x2="16.25" y2="15.25" stroke="#082431" stroke-width="1.5" stroke-linecap="round" />
+                    </svg> 
+                    <span class="ml-4">My Chat</span>
                     <span class="inline-flex items-center justify-center px-3 py-2 ml-auto text-xs font-bold leading-none text-green-500 rounded-full bg-serv-green-badge">
                         {{ auth()->user()->order_freelancer()->count() }}
                     </span>
